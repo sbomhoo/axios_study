@@ -1,70 +1,45 @@
-# Getting Started with Create React App
+# Axios
+- API연동의 기본 
+- GET (조회), POST(등록) , PUT(수정), DELETE(삭제)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# async와 await
+- 비동기 함수 앞에 async를 넣으면 프로미스 객체를 리턴한다.
+- await를 넣으면 프로미스가 끝날때까지 기다린다.(비동기 함수는 프로미스가 없기 때문에 기다려주지 않음, 때문에 async로 프로미스 만든다.)
+- useEffect에 바로 async사용 할 수 없기때문에 내부에서 새로운 함수 선언하고 그 새로운 함수에 async 사용 
+- 참고 : https://joshua1988.github.io/web-development/javascript/js-async-await/
 
-In the project directory, you can run:
+```java
+  const fetchUsers = async () => {  // 비동기 함수 앞에 async를 넣으면 프로미스 객체를 리턴한다.
+        try {
+            //요청이 시작 할 때에는 error와  users를 초기화하고
+            setError(null);
+            setUsers(null);
+            //loading 상태를 true로 바꿉니다.
+            setLoading(true);
+            const response = await axios.get(    // 프로미스가 끝날때까지 기다린다.(비동기 함수는 프로미스가 없기 때문에 기다려주지 않음, 때문에 async로 프로미스 변홚나다.)
+                'https://jsonplaceholder.typicode.com/users'
+            );
+            setUsers(response.data); //데이터는 response.data 안에 들어있습니다.
+        } catch(e){
+            setError(e);
+        }
+        setLoading(false);
+    };
 
-### `npm start`
+    //useEffect에 바로 async사용 할 수 없기때문에 내부에서 새로운 함수 선언
+    useEffect(() => {
+        fetchUsers();
+    }, []);
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# useEffect
+- 함수형 컴포넌트에서 LifeCycle 함수를 사용가능케 하는 라이브러리
+  useEffect(() => { console.log(user); } , []);
+- ,뒤에 []는 deps라고 부름
+ 1. deps가 빈 배열 일 경우 => 처음 컴포넌트 마운트 될 때 호출
+ 2. deps가 빈배열 이고 함수 안에 return 값이 있는 경우 => 언마운트 될 때
+ 3. deps가 값이 있는 배열인 경우 => 언마운트 시, 값이 바뀌기 직전에 호출
+ 4. deps가 생략이 된 경우 => 컴포넌트 리렌더링 될 떄 마다 호출
+  
