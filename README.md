@@ -36,10 +36,24 @@
 
 # useEffect
 - 함수형 컴포넌트에서 LifeCycle 함수를 사용가능케 하는 라이브러리
-  useEffect(() => { console.log(user); } , []);
 - ,뒤에 []는 deps라고 부름
+
  1. deps가 빈 배열 일 경우 => 처음 컴포넌트 마운트 될 때 호출
- 2. deps가 빈배열 이고 함수 안에 return 값이 있는 경우 => 언마운트 될 때
+```java
+  useEffect(() => { console.log(user); } , []);
+```
+ 2. deps가 빈배열 이고 함수 안에 return 함수가 있는 경우 => 언마운트 될 때
+```java
+  useEffect(() => {     
+    return () => {
+      console.log('user 가 바뀌기 전..');
+    }; } , []);
+```
  3. deps가 값이 있는 배열인 경우 => 언마운트 시, 값이 바뀌기 직전에 호출
+```java
+  useEffect(() => { console.log(user); } , [user]);
+```
  4. deps가 생략이 된 경우 => 컴포넌트 리렌더링 될 떄 마다 호출
-  
+  ```java
+  useEffect(() => { console.log(user); } );
+```
