@@ -1,9 +1,9 @@
-import Users from './Users';
+import Users2 from './Users';
 
 function App() {
   return (
     <div className="App">
-      <Users/>
+      <Users2/>
     </div>
   );
 }
